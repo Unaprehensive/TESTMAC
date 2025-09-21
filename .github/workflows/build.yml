@@ -1,0 +1,9 @@
+name: Build App
+   on: push
+   jobs:
+     build:
+       runs-on: macos-latest
+       steps:
+       - uses: actions/checkout@v2
+       - run: echo "Test build"
+       - run: ls -la
