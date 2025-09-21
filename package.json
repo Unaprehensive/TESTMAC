@@ -1,8 +1,23 @@
 {
-  "name": "blueprint-terminal",
-  "version": "1.0.0",
-  "main": "server.py",
+  "name": "blueprint-fx",
+  "version": "2.1.0",
+  "description": "Blueprint FX Trading Terminal",
+  "main": "main.js",
   "scripts": {
-    "start": "python server.py"
+    "build-mac": "electron-builder --mac"
+  },
+  "devDependencies": {
+    "electron": "^27.0.0",
+    "electron-builder": "^24.6.4"
+  },
+  "build": {
+    "appId": "com.blueprintfx.terminal",
+    "productName": "Blueprint FX",
+    "mac": {
+      "category": "public.app-category.finance",
+      "hardenedRuntime": false,
+      "gatekeeperAssess": false,
+      "target": "dmg"
+    }
   }
 }
