@@ -14,15 +14,25 @@ jobs:
         mkdir -p Blueprint.app/Contents/MacOS
         mkdir -p Blueprint.app/Contents/Resources
         cp Terminal.html Blueprint.app/Contents/Resources/
-        cp -r *.html *.js *.py Blueprint.app/Contents/Resources/
+        cp -r *.html *.js *.py Blueprint.app/Contents/Resources/ 2>/dev/null || true
         echo '#!/bin/bash' > Blueprint.app/Contents/MacOS/Blueprint
         echo 'cd "$(dirname "$0")/../Resources"' >> Blueprint.app/Contents/MacOS/Blueprint
         echo 'python3 server.py &' >> Blueprint.app/Contents/MacOS/Blueprint
         echo 'sleep 2' >> Blueprint.app/Contents/MacOS/Blueprint
         echo 'open http://localhost:9767/Terminal.html' >> Blueprint.app/Contents/MacOS/Blueprint
         chmod +x Blueprint.app/Contents/MacOS/Blueprint
-        zip -r Blueprint-Mac.zip Blueprint.app
+    - name: Create DMG
+      run: |
+        brew install create-dmg
+        create-dmg \
+          --volname "Blueprint Terminal" \
+          --window-pos 200 120 \
+          --window-size 600 400 \
+          --icon-size 100 \
+          --app-drop-link 450 185 \
+          "Blueprint-Installer.dmg" \
+          "Blueprint.app"
     - uses: actions/upload-artifact@v4
       with:
-        name: Blueprint-Mac
-        path: Blueprint-Mac.zip
+        name: Blueprint-Mac-Installer
+        path: Blueprint-Installer.dmg
