@@ -15,9 +15,13 @@
     "productName": "Blueprint FX",
     "mac": {
       "category": "public.app-category.finance",
+      "identity": null,
       "hardenedRuntime": false,
       "gatekeeperAssess": false,
-      "target": "dmg"
+      "target": {
+        "target": "dmg",
+        "arch": ["x64", "arm64"]
+      }
     }
   }
 }
