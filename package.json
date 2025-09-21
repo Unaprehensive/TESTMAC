@@ -1,0 +1,8 @@
+{
+  "name": "blueprint-terminal",
+  "version": "1.0.0",
+  "main": "server.py",
+  "scripts": {
+    "start": "python server.py"
+  }
+}

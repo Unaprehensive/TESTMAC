@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blueprint Terminal - First-Time Setup</title>
+    <style>
+        :root {
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #141824;
+            --bg-panel: rgba(20, 24, 36, 0.95);
+            --accent-primary: #00ffff; /* Cyan */
+            --accent-secondary: #ff00ff; /* Magenta */
+            --accent-tertiary: #8b5cf6; /* Purple */
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --border: rgba(139, 92, 246, 0.3);
+            --shadow-glow: 0 0 25px rgba(0, 255, 255, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bg-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.05;
+            background: 
+                radial-gradient(circle at 10% 20%, var(--accent-primary) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, var(--accent-secondary) 0%, transparent 40%);
+            animation: bgPulse 15s ease-in-out infinite;
+        }
+
+        @keyframes bgPulse {
+            0%, 100% { opacity: 0.05; transform: scale(1); }
+            50% { opacity: 0.1; transform: scale(1.05); }
+        }
+
+        .setup-container {
+            width: 550px;
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5), var(--shadow-glow);
+            animation: fadeIn 1s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .logo {
+            font-size: 36px;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .installation-guide {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+        
+        .installation-guide p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+        .installation-guide a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .installation-guide a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-continue {
+            width: 100%;
+            padding: 15px;
+            margin-top: 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, var(--accent-tertiary), var(--accent-primary));
+            color: white;
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-continue:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 30px rgba(0, 255, 255, 0.5);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    <div class="setup-container">
+        <div class="header">
+            <div class="logo">First-Time Setup</div>
+            <div class="subtitle">MetaTrader 5 Required</div>
+        </div>
+        
+        <div class="installation-guide">
+            <p>Welcome to Blueprint Terminal. To continue, please install the MetaTrader 5 platform.</p>
+            <p><a href="https://www.metatrader5.com/en/download" target="_blank">Download MetaTrader 5 Official</a></p>
+            <p>Once installed, please log in to your account inside the MT5 terminal at least once. Then click the button below.</p>
+        </div>
+
+        <button class="btn-continue" id="recheck-btn">I have installed MT5, check again</button>
+    </div>
+
+   <script>
+    const recheckButton = document.getElementById('recheck-btn');
+
+    recheckButton.addEventListener('click', () => {
+        // Эта команда теперь будет работать благодаря preload.js
+        window.electronAPI.recheckPlatforms();
+    });
+</script>
+</body>
+</html>
