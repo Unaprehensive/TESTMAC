@@ -1,38 +1,30 @@
-name: Build App
-on: push
+name: Build Mac App
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
 jobs:
-  build-mac:
+  build:
     runs-on: macos-latest
+    
     steps:
     - uses: actions/checkout@v3
-    - name: Setup Python
-      uses: actions/setup-python@v4
+    
+    - name: Setup Node
+      uses: actions/setup-node@v3
       with:
-        python-version: '3.10'
-    - name: Create Mac App
-      run: |
-        mkdir -p Blueprint.app/Contents/MacOS
-        mkdir -p Blueprint.app/Contents/Resources
-        cp Terminal.html Blueprint.app/Contents/Resources/
-        cp -r *.html *.js *.py Blueprint.app/Contents/Resources/ 2>/dev/null || true
-        echo '#!/bin/bash' > Blueprint.app/Contents/MacOS/Blueprint
-        echo 'cd "$(dirname "$0")/../Resources"' >> Blueprint.app/Contents/MacOS/Blueprint
-        echo 'python3 server.py &' >> Blueprint.app/Contents/MacOS/Blueprint
-        echo 'sleep 2' >> Blueprint.app/Contents/MacOS/Blueprint
-        echo 'open http://localhost:9767/Terminal.html' >> Blueprint.app/Contents/MacOS/Blueprint
-        chmod +x Blueprint.app/Contents/MacOS/Blueprint
-    - name: Create DMG
-      run: |
-        brew install create-dmg
-        create-dmg \
-          --volname "Blueprint Terminal" \
-          --window-pos 200 120 \
-          --window-size 600 400 \
-          --icon-size 100 \
-          --app-drop-link 450 185 \
-          "Blueprint-Installer.dmg" \
-          "Blueprint.app"
-    - uses: actions/upload-artifact@v4
+        node-version: 18
+    
+    - name: Install dependencies
+      run: npm install
+    
+    - name: Build Electron App
+      run: npm run build-mac
+    
+    - name: Upload DMG
+      uses: actions/upload-artifact@v3
       with:
-        name: Blueprint-Mac-Installer
-        path: Blueprint-Installer.dmg
+        name: Blueprint-Mac
+        path: dist/*.dmg
