@@ -22,7 +22,7 @@ jobs:
         echo 'open http://localhost:9767/Terminal.html' >> Blueprint.app/Contents/MacOS/Blueprint
         chmod +x Blueprint.app/Contents/MacOS/Blueprint
         zip -r Blueprint-Mac.zip Blueprint.app
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: Blueprint-Mac
         path: Blueprint-Mac.zip
